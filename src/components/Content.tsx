@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelectedGenreContext } from '../hook/SelectedGenreHook';
 
 import { MovieCard } from './MovieCard';
 
@@ -24,7 +25,9 @@ interface ContentProps {
   movies: MovieProps[];
 }
 
-export function Content({ selectedGenre, movies }: ContentProps) {
+export function Content() {
+
+  const { selectedGenre, movies } = useSelectedGenreContext()
 
   return (
   <div className="container">
