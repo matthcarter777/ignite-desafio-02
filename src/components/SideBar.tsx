@@ -1,5 +1,6 @@
 import { useSelectedGenreContext } from "../hook/SelectedGenreHook";
 import { Button } from '../components/Button';
+import { useMemo } from "react";
 
 export function SideBar() {
 

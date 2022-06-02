@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 import { api } from '../services/api';
 
@@ -40,9 +40,10 @@ export function SelectedGenreProvider ({ children }: SelectedGenreProviderProps)
   const [movies, setMovies] = useState<MovieProps[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
 
-  function getGenreId(id: number) {
+  const getGenreId = useCallback((id: number) => {
     setSelectedGenreId(id)
-  }
+  },[])
+
 
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {

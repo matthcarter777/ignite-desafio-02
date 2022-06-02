@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useSelectedGenreContext } from '../hook/SelectedGenreHook';
+import lodash from 'lodash';
 
 import { MovieCard } from './MovieCard';
 
@@ -21,27 +22,31 @@ interface MovieProps {
 }
 
 interface ContentProps {
-  selectedGenre: GenreResponseProps;
-  movies: MovieProps[];
+  selectedGenre?: GenreResponseProps;
+  movies?: MovieProps[];
 }
 
-export function Content() {
+function ContentComponent({ }: ContentProps) {
 
   const { selectedGenre, movies } = useSelectedGenreContext()
 
   return (
-  <div className="container">
-    <header>
-      <span className="category">Categoria:<span> {selectedGenre.title}</span></span>
-    </header>
-  
-    <main>
-      <div className="movies-list">
-        {movies.map(movie => (
-          <MovieCard key ={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
-        ))}
-      </div>
-    </main>
-  </div>
+    <div className="container">
+      <header>
+        <span className="category">Categoria:<span> {selectedGenre.title}</span></span>
+      </header>
+    
+      <main>
+        <div className="movies-list">
+          {movies.map(movie => (
+            <MovieCard key ={movie.imdbID} title={movie.Title} poster={movie.Poster} runtime={movie.Runtime} rating={movie.Ratings[0].Value} />
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }
+
+export const Content = memo(ContentComponent, (prevProps, nextProps) => {
+  return lodash.isEqual(prevProps.movies, nextProps.movies)
+})
